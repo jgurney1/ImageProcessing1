@@ -65,4 +65,32 @@ subplot(1,3,1), imagesc(G), title("Input image");
 subplot(1,3,2), imagesc(blOut), title("Bilinear Interpolation");
 subplot(1,3,3), imagesc(nnOut), title("Nearest Neighbour Interpolation");
 
+clear; close all; clc; 
+
+%read in input image
+G=imread('SC.png');
+%variable declarations
+[m,n]=size(G); %row and column length
+A=80; 
+B=100;
+C=220;
+%create new matrix for output of class G (input)
+O=zeros(m,n,class(G));
+%nested loop to iterate through all input matrix elements
+for i=1:m
+    for j=1:n
+        %reassigns pixel values in geyscale range 80 - 100 to 220
+        if G(i,j)>=A && G(i,j)<=B
+            O(i,j)=C;
+        %maps all other pixels to new matrix
+        else
+            O(i,j)=G(i,j);
+
+        end
+    end
+end
+%displays outputs
+colormap gray;
+subplot (1,2,1), imagesc(G), title("Original");
+subplot(1,2,2), imagesc(O), title("Piecewise-Linear transformation");
 
