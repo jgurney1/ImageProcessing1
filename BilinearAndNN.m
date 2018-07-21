@@ -65,6 +65,9 @@ subplot(1,3,1), imagesc(G), title("Input image");
 subplot(1,3,2), imagesc(blOut), title("Bilinear Interpolation");
 subplot(1,3,3), imagesc(nnOut), title("Nearest Neighbour Interpolation");
 
+prompt = "continue?";
+answ = input(prompt);
+
 clear; close all; clc; 
 
 %read in input image
@@ -93,6 +96,8 @@ end
 colormap gray;
 subplot (1,2,1), imagesc(G), title("Original");
 subplot(1,2,2), imagesc(O), title("Piecewise-Linear transformation");
+
+answ = input(prompt);
 
 clear; close all; clc; 
 
@@ -140,3 +145,6 @@ colormap gray;
 subplot (1,3,1), imagesc(O), title("Original");
 subplot(1,3,2), imagesc(newImage), title("Mean Filter");
 subplot(1,3,3), imagesc(finalMedian), title("Median Filter");
+
+answ = input(prompt);
+clear; close all; clc; 
