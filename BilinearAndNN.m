@@ -94,3 +94,49 @@ colormap gray;
 subplot (1,2,1), imagesc(G), title("Original");
 subplot(1,2,2), imagesc(O), title("Piecewise-Linear transformation");
 
+clear; close all; clc; 
+
+%read in input image and convert to greyscale
+I = imread('Noisy.png');
+G = rgb2gray(I);
+%adds a 2 pixel padding
+O = padarray(G, [2,2],'replicate');
+%convert greyscale values to double
+X = im2double(O);
+%variable declarations
+[m ,n] =size(G); %row and column length
+SE =strel('square', 5); % 5*5 square structuring element
+%declare new matricies for output
+newImage= zeros(m,n); %output matrix for mean filter
+finalMedian = zeros(m,n); %output matrix for median filter
+medianImage= zeros(1,25); %matrix to store neighbourhood of each pixel
+
+%nested loop to iterate through input matrix
+for i = 1:m
+    for j = 1:n
+        %resets sum variable and counter
+        sum = 0;
+        c = 1;
+        %nested loop to find the neighbourhood of a given pixel
+        for k = i:i+4  
+            for l = j:j+4
+                %calculates mean 
+                sum = sum + (1/25)*X(k,l);
+                %stores neighbourhood of pixel in 1d array
+                medianImage(1,c) =  X(k,l);
+                %increments counter
+                c = c+1;
+            end
+        end
+    %calculates median for neighbourhood and stores to output matrix    
+    finalMedian(i,j) = median(medianImage);    
+    %stores mean for a pixel in output matrix
+    newImage(i,j) = sum;    
+    end
+    
+end    
+%displays outputs   
+colormap gray;
+subplot (1,3,1), imagesc(O), title("Original");
+subplot(1,3,2), imagesc(newImage), title("Mean Filter");
+subplot(1,3,3), imagesc(finalMedian), title("Median Filter");
